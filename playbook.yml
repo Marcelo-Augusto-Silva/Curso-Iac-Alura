@@ -1,0 +1,15 @@
+- hosts: terraform-ansible
+  tasks:
+  - name: Instalando Python3, virtualenv
+    apt: # Instalar alguma coisa igual apt do ubuntu 
+      pkg:  # Para instalar um pacote utilizamos o pkg
+      - python3
+      - virtualenv
+      update_cache: yes
+    become: yes 
+  - name: Instalando dependencias com o pip (Django e Django Rest)
+    pip: # Utilizado para instalar modulos Python
+      virtualenv: /home/ubuntu/tcc/venv/ # Ligar a virtualenv
+      name:
+        - django
+        - djangorestframework
