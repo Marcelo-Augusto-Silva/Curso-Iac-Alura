@@ -17,6 +17,26 @@ O comando cat server para ver o conteudo de um arquivo linux
 
 Terraform initi = inicia o Terraform
 
+terraform plan = mostra todas as mudanças
+
+terraform apply = aplica as mudanças
+
+terraform destroy = destroi a maquina
+
 aws sts get-caller-identity = mostra quem esta logado na aws
 
-teste
+
+
+Ansible
+
+    ansible-playbook playbook.yml -u ubuntu --private-key curso-iac.pem -i hosts.yml == comando que roda o ansible 
+
+
+    
+pip freeze = mostra todos os pacotes que foram instalados utilizando o pip
+
+. ven/bin/activate ==  ativar o ambiente venv
+
+deactivate = sair da venv
+
+rm -rf manage.py setup/ = apagar arquivos

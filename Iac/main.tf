@@ -17,10 +17,7 @@ resource "aws_instance" "app_server" {
   ami           = "ami-0075013580f6322a1"
   instance_type = "t2.micro"
   key_name = "curso-iac"
-  user_data = "${file("init.sh")}"
-  user_data_replace_on_change = true
-  vpc_security_group_ids = ["sg-088a55698c58a1a84"]
   tags = {
-    Name = "Teste Aws"
+    Name = "Terraform Ansible Python"
   }
 }
