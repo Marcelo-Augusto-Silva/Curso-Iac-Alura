@@ -39,6 +39,7 @@ pip freeze = mostra todos os pacotes que foram instalados utilizando o pip
 
 deactivate = sair da venv
 
+<<<<<<< HEAD
 rm -rf manage.py setup/ = apagar arquivos
 
 
@@ -63,3 +64,6 @@ a Past Infra é onde nos deixamos o codigo base da infra
 
 
 terraform output = mostra os outputs
+=======
+rm -rf manage.py setup/ = apagar arquivos
+>>>>>>> 005f923a034b13013fa2ed1150969ae1e070bdd5
