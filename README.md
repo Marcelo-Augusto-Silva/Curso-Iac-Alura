@@ -1,81 +1,148 @@
-Curso de IAC Alura
-Anotações do curso de IAC da ALura
+# Projeto de Infraestrutura como Código (IaC)
 
-Terraform é utilizado para criar e gerenciar a infraestrutura
+Este repositório contém a configuração de infraestrutura para ambientes **Dev** e **Prod** utilizando **Terraform** e **Ansible**, além de scripts para testar aplicações com o **Locust**.
 
-Ansible para automatizar a instalação e atualização de aplicativos
+---
 
-Beneficios de IAC:
+## Estrutura do Projeto
 
-Deploy Automatizado
-Controle de versão
-Velocidade e Segurança
-Reuso
-chmod 400 "curso-iac.pem" == configura as permissoes do arquivo para deixar somente leitura e outros usuarios nao podem ler assi protegendo a chave
+- **env/**: Contém os arquivos específicos para os ambientes **Dev** e **Prod**.
+  - **Dev/**: Arquivos relacionados ao ambiente de desenvolvimento.
+    - **iac-DEV** e **iac-DEV.pub**: Chaves SSH para o ambiente Dev.
+    - **main.tf**: Código Terraform para configurar o ambiente Dev.
+    - **playbook.yml**: Playbook do Ansible para provisionamento no ambiente Dev.
+  - **Prod/**: Arquivos relacionados ao ambiente de produção.
+    - **.terraform/**: Diretório gerado automaticamente pelo Terraform.
+    - **terraform.lock.hcl**: Arquivo de bloqueio para dependências Terraform.
+    - **ansible.sh**: Script para executar o Ansible no ambiente Prod.
+    - **IAC-PROD** e **IAC-PROD.pub**: Chaves SSH para o ambiente Prod.
+    - **main.tf**: Código Terraform para configurar o ambiente Prod.
+    - **playbook.yml**: Playbook do Ansible para provisionamento no ambiente Prod.
+    - **terraform.tfstate** e **terraform.tfstate.backup**: Arquivos de estado do Terraform.
+- **infra/**: Configuração geral da infraestrutura.
+  - **grupo_de_seguranca.tf**: Definição de grupos de segurança no Terraform.
+  - **hosts.yml**: Configuração de hosts para o Ansible.
+  - **main.tf**: Código principal do Terraform para provisionar recursos.
+  - **variables.tf**: Variáveis utilizadas pelo Terraform.
+- **testes/**: Diretório reservado para scripts de teste, como o Locust.
+- **carga.py**: Script Python para testes de carga com o Locust.
 
-O comando cat server para ver o conteudo de um arquivo linux
+---
 
-Terraform initi = inicia o Terraform
+## Passo a Passo para Configurar e Subir o Projeto
 
-terraform plan = mostra todas as mudanças
+### 1. Pré-requisitos
 
-terraform apply = aplica as mudanças
+Certifique-se de ter instalado:
 
-terraform destroy = destroi a maquina
+- [Terraform](https://www.terraform.io/downloads)
+- [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- [Python](https://www.python.org/downloads) e o pacote `locust`
 
-aws sts get-caller-identity = mostra quem esta logado na aws
+### 2. Configurar o Terraform
 
+1. **Inicializar o Terraform**:
+   
+   No diretório do ambiente (ex.: `env/Dev` ou `env/Prod`), execute:
 
+   ```bash
+   terraform init
+   ```
 
-Ansible
+2. **Planejar a Infraestrutura**:
 
-    ansible-playbook playbook.yml -u ubuntu --private-key curso-iac.pem -i hosts.yml == comando que roda o ansible 
+   Gere um plano para revisar as alterações que o Terraform realizará:
 
+   ```bash
+   terraform plan
+   ```
 
-    
-pip freeze = mostra todos os pacotes que foram instalados utilizando o pip
+3. **Aplicar a Configuração**:
 
-. ven/bin/activate ==  ativar o ambiente venv
+   Execute o seguinte comando para criar a infraestrutura:
 
-deactivate = sair da venv
+   ```bash
+   terraform apply
+   ```
 
-<<<<<<< HEAD
-rm -rf manage.py setup/ = apagar arquivos
+   Confirme digitando `yes` quando solicitado.
 
+### 3. Configurar o Ansible
 
+1. **Executar o Playbook**:
 
+   Após provisionar a infraestrutura com o Terraform, use o Ansible para configurar os servidores:
 
+   ```bash
+   ansible-playbook -i infra/hosts.yml env/Dev/playbook.yml
+   ```
 
+   Para o ambiente de produção, substitua o caminho do playbook pelo respectivo arquivo de **Prod**.
 
+### 4. Testar a Aplicação com Locust
 
+1. **Instalar o Locust**:
 
-Anotaçoes do Segundo curso da Alura - IAC
+   Instale o Locust utilizando o `pip`:
 
+   ```bash
+   pip install locust
+   ```
 
+2. **Executar os Testes de Carga**:
 
-ssh-keygen = Gera uma chave privada e uma publica
+   No diretório raiz, execute o comando:
 
-Nós rodamos o terraform init em todos os diretorios onde ira rodar o comando terraform
+   ```bash
+   locust -f carga.py
+   ```
 
+3. **Acessar a Interface do Locust**:
 
-a Pasta Env é a parte de ambientes onde temos o ambiiente de Desenvolvimento e o ambiente de Produção.
+   Abra o navegador e vá para [http://localhost:8089](http://localhost:8089). Configure os parâmetros de teste (número de usuários, taxa de spawn) e inicie os testes.
 
-a Past Infra é onde nos deixamos o codigo base da infra
+---
 
+## Explicação dos Arquivos Principais
 
-terraform output = mostra os outputs
-=======
-rm -rf manage.py setup/ = apagar arquivos
->>>>>>> 005f923a034b13013fa2ed1150969ae1e070bdd5
+### Terraform
 
+- **main.tf**: Código principal para provisionar a infraestrutura.
+- **variables.tf**: Declaração de variáveis para parametrizar a infraestrutura.
+- **grupo_de_seguranca.tf**: Configuração de grupos de segurança (regras de firewall).
 
+### Ansible
 
+- **playbook.yml**: Instruções para configurar os servidores provisionados.
+- **hosts.yml**: Lista de hosts gerados pelo Terraform.
 
+### Locust
 
-Curso Infra Elastica
+- **carga.py**: Script de testes de carga que simula requisições à aplicação hospedada na infraestrutura provisionada.
 
+---
 
-No curso de infra elastica nos deixamos um template pronto no infra/main.tf onde fica mais facil sbir as maquinas, utilizamos o scaling group e assim quando uma aplicaçao começa a ter muitas requisiçoes ela começa a se autoescalar
+## Infraestrutura Elástica
 
+Infraestrutura elástica refere-se a uma abordagem de provisionamento e gerenciamento de recursos computacionais que permite escalar automaticamente, de forma vertical ou horizontal, com base na demanda do sistema. Essa característica é fundamental para garantir:
 
-utilizamos o locust para testar a applicação 
+- **Eficiência de Recursos**: Os recursos são utilizados somente quando necessário, reduzindo custos.
+- **Alta Disponibilidade**: Permite lidar com aumentos repentinos de tráfego sem impactar o desempenho.
+- **Escalabilidade Dinâmica**: Ajusta automaticamente a capacidade da infraestrutura para atender picos de uso ou reduzir custos em períodos de baixa demanda.
+
+Neste projeto, a elasticidade pode ser implementada configurando auto-scaling groups em provedores de nuvem através do Terraform, além de utilizar balanceadores de carga para distribuir o tráfego adequadamente.
+
+---
+
+## Boas Práticas
+
+- Utilize ambientes isolados (ex.: virtualenv) para gerenciar dependências Python.
+- Sempre revise o plano gerado pelo `terraform plan` antes de aplicar as mudanças.
+- Mantenha os arquivos `.tfstate` protegidos, pois eles contêm informações sensíveis.
+- Monitore os resultados do Locust para identificar gargalos de desempenho na aplicação.
+
+---
+
+## Contribuição
+
+Sinta-se à vontade para abrir issues ou enviar pull requests para melhorias neste projeto.
