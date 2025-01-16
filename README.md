@@ -67,3 +67,15 @@ terraform output = mostra os outputs
 =======
 rm -rf manage.py setup/ = apagar arquivos
 >>>>>>> 005f923a034b13013fa2ed1150969ae1e070bdd5
+
+
+
+
+
+Curso Infra Elastica
+
+
+No curso de infra elastica nos deixamos um template pronto no infra/main.tf onde fica mais facil sbir as maquinas, utilizamos o scaling group e assim quando uma aplicaçao começa a ter muitas requisiçoes ela começa a se autoescalar
+
+
+utilizamos o locust para testar a applicação 

@@ -4,9 +4,8 @@ module "AWS-prod" {
     regiao_aws = "us-west-2"
     chave = "IAC-PROD"
     nome_grupo_seguranca = "acesso Producao"
-
-}
-
-output "IP" {
-  value       = module.AWS-prod.IP_publico
+    minimo = 1
+    maximo = 10
+    nomeGrupo = "Prod"
+    producao = true 
 }

@@ -5,8 +5,9 @@ module "AWS-dev" {
     regiao_aws = "us-west-2"
     chave = "Iac-DEV"
     nome_grupo_seguranca = "Grupo Desenvolvimento"
+    minimo = 0
+    maximo = 1
+    nomeGrupo = "Prod"
+    producao = false
 }
 
-output "IP" { # Pegar p IP publico da maquina
-    value = module.AWS-dev.IP_publico
-}

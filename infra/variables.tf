@@ -17,3 +17,22 @@ variable "nome_grupo_seguranca" {
   type = string
   description = "Essa variavel serve para especificar o nome do grupo de segurança de acordo com o ambiente "
 }
+
+
+variable "minimo" {
+  type = number
+}
+
+variable "maximo" {
+  type = number
+}
+
+variable "nomeGrupo" {
+  type = string
+  description = "nome do autoscaling group"
+}
+
+variable "producao" {
+  type = bool
+  
+}
